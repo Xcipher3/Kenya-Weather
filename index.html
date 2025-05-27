@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kenya Weather App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="font-sans min-h-screen flex items-center justify-center p-4 bg-gray-100">
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white p-4 rounded-lg shadow-lg flex items-center space-x-3">
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+            <span class="text-gray-700">Loading weather data...</span>
+        </div>
+    </div>
+
+    <div class="weather-card w-full max-w-md rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 bg-white">
+        <!-- Search Bar -->
+        <div class="bg-white p-4 border-b">
+            <div class="relative">
+                <input type="text" 
+                       id="county-search" 
+                       class="w-full px-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                       placeholder="Search for a county in Kenya...">
+                <div id="search-results" class="absolute w-full mt-1 bg-white rounded-lg shadow-lg hidden z-10 max-h-60 overflow-y-auto">
+                    <!-- Search results will be populated here -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Weather Display Area -->
+        <div id="weather-display" class="sunny-bg text-white p-8 relative overflow-hidden h-96">
+            <!-- Loading State -->
+            <div id="weather-loading" class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+            </div>
+            
+            <!-- Error State -->
+            <div id="weather-error" class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+                <div class="bg-white p-4 rounded-lg shadow-lg text-red-600">
+                    <i class="fas fa-exclamation-circle text-2xl mb-2"></i>
+                    <p>Unable to load weather data</p>
+                    <button class="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" onclick="retryWeatherLoad()">
+                        Retry
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dynamic weather elements will be inserted here by JavaScript -->
+            <div class="absolute top-8 right-8 text-right">
+                <div id="location" class="text-2xl font-bold">Nairobi, Kenya</div>
+                <div id="date" class="text-lg">June 15, 2023</div>
+            </div>
+            
+            <div class="absolute bottom-8 left-8">
+                <div id="temperature" class="text-7xl font-bold temp-change">24°C</div>
+                <div id="weather-condition" class="text-2xl mt-2">Sunny</div>
+                <div id="high-low" class="text-lg mt-1">H: 28° L: 18°</div>
+            </div>
+            
+            <!-- Weather icon will be placed here -->
+            <div id="weather-icon" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-8xl">
+                <i class="fas fa-sun sun"></i>
+            </div>
+        </div>
+        
+        <!-- Weather Controls -->
+        <div class="bg-white p-6">
+            <div class="flex justify-between mb-6">
+                <h2 class="text-xl font-bold text-gray-800">Weather Forecast</h2>
+                <div class="text-sm text-gray-500" id="last-updated">
+                    Last updated: Just now
+                </div>
+            </div>
+            
+            <!-- 5-Day Forecast -->
+            <div class="grid grid-cols-5 gap-2 mb-6" id="forecast-container">
+                <!-- Forecast cards will be populated by JavaScript -->
+            </div>
+            
+            <!-- Additional Weather Info -->
+            <div class="grid grid-cols-3 gap-4 text-center">
+                <div class="bg-gray-50 rounded-lg p-3">
+                    <i class="fas fa-wind text-blue-500 text-xl mb-1"></i>
+                    <div class="text-sm font-medium">Wind</div>
+                    <div class="text-lg font-bold" id="wind-speed">12 km/h</div>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-3">
+                    <i class="fas fa-tint text-blue-400 text-xl mb-1"></i>
+                    <div class="text-sm font-medium">Humidity</div>
+                    <div class="text-lg font-bold" id="humidity">65%</div>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-3">
+                    <i class="fas fa-compress-arrows-alt text-gray-600 text-xl mb-1"></i>
+                    <div class="text-sm font-medium">Pressure</div>
+                    <div class="text-lg font-bold" id="pressure">1012 hPa</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="config.js"></script>
+    <script src="utils.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
